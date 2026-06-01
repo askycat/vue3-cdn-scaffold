@@ -1,7 +1,6 @@
 <template>
   <aside class="side-menu">
     <router-link to="/home">{{ $t('首页') }}</router-link>
-    <router-link to="/about">{{ $t('关于') }}</router-link>
   </aside>
 </template>
 
