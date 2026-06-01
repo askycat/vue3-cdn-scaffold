@@ -42,20 +42,18 @@ try {
     throw new Error('CSV 文件为空或解析失败');
   }
 
-  // 首行为表头，格式类似: ['key', 'en']
+  // 首行为表头，必须包含 "zh-CN" 作为主键
   const headers = rows[0].map(h => h.trim());
-  const keyIndex = headers.indexOf('key');
+  const keyIndex = headers.indexOf('zh-CN');
   if (keyIndex === -1) {
-    throw new Error('CSV 文件必须包含 "key" 列');
+    throw new Error('CSV 文件必须包含 "zh-CN" 列作为主键');
   }
 
-  // 动态收集除 key 之外的所有语言列标识
-  const languages = headers.filter(h => h !== 'key');
+  // 收集所有需要输出的语言列
+  const languages = headers;
   
   // 初始化结果对象
-  const translations = {
-    'zh-CN': {} // 中文默认 key -> key
-  };
+  const translations = {};
   languages.forEach(lang => {
     translations[lang] = {};
   });
@@ -66,14 +64,15 @@ try {
     const key = row[keyIndex];
     if (!key) continue;
 
-    // 中文映射为其自身
-    translations['zh-CN'][key] = key;
-
-    // 填充其它语言列
+    // 填充每种语言的对应值
     languages.forEach(lang => {
       const langIndex = headers.indexOf(lang);
       const val = row[langIndex];
-      translations[lang][key] = val ? val.trim() : key; // 缺省使用中文 key
+      if (lang === 'zh-CN') {
+        translations[lang][key] = key; // 中文始终映射为其自身作为键值
+      } else {
+        translations[lang][key] = val ? val.trim() : key; // 其它语言缺省使用中文
+      }
     });
   }
 

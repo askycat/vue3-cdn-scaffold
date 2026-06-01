@@ -20,5 +20,6 @@
   "零编译运行时解析": "Zero-build runtime compilation",
   "全局外置配置文件": "Global external configuration",
   "轻量级安全网络层": "Lightweight secure network layer",
-  "页面不存在": "Page Not Found"
+  "页面不存在": "Page Not Found",
+  "示例页面": "Example Page"
 }
