@@ -4,7 +4,7 @@ window.useAppInfoStore = Pinia.defineStore('appInfo', {
   state: () => ({
     token: '',
     userInfo: null,
-    permissions: [] // 拥有的权限列表，例如：['user', 'admin']
+    permissions: [] // 拥有的权限列表，例如：['user-add', 'user-edit']
   }),
 
   getters: {
