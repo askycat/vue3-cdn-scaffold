@@ -1,4 +1,4 @@
-# Vue3 CDN App
+# Vue3 CDN Scaffold
 
 一个基于 Vue 3 CDN 的前端示例项目，适合用于学习 Vue 3、Vue Router、Pinia、国际化和单文件组件的基础组织方式。项目无需 Vite、Webpack 或 npm build 流程，通过浏览器加载 CDN 资源与 `vue3-sfc-loader` 运行 `.vue` 单文件组件。
 
