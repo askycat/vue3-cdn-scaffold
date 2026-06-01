@@ -1,0 +1,16 @@
+{
+  "jobs": [
+    {
+      "id": "sync-order",
+      "name": "同步订单",
+      "status": "running",
+      "cron": "*/10 * * * * *"
+    },
+    {
+      "id": "clear-log",
+      "name": "清理日志",
+      "status": "stopped",
+      "cron": "0 3 * * *"
+    }
+  ]
+}
