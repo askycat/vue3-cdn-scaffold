@@ -3,9 +3,9 @@
     <!-- 头部横幅 -->
     <header class="doc-hero">
       <div class="hero-badge">开发指南 & 模块文档</div>
-      <h1 class="hero-title">Vue3 CDN Scaffold</h1>
+      <h1 class="hero-title">{{ siteInfo.title }}</h1>
       <p class="hero-subtitle">
-        基于原生 Vue 3 CDN + ESM，免编译、零打包、开箱即用的极简前端开发脚手架。本文档详细介绍了项目中集成的核心模块及其具体用法。
+        {{ siteInfo.description }}
       </p>
     </header>
 
@@ -271,26 +271,27 @@ const setLang = (lang) => {
       <section id="section-config" class="doc-section">
         <h2 class="section-title"><span class="number">06.</span> 站点全局配置 (config.js)</h2>
         <p class="section-desc">
-          所有的基础参数（项目名称、版本号、请求基础路径等）全部外置解耦到根目录下的 <code>config.js</code>，在 HTML 中以同步脚本载入挂载，修改配置无需重复构建代码。
+          所有的基础参数（项目名称、站点说明、版本号、请求基础路径等）全部外置解耦到根目录下的 <code>config.js</code>，在 HTML 中以同步脚本载入挂载，修改配置无需重复构建代码。
         </p>
         <div class="code-block-wrapper" v-pre>
           <div class="code-header">
             <span class="code-lang">JavaScript</span>
             <span class="code-path">config.js</span>
           </div>
-          <pre><code>window.SITE_INFO = {
-  title: 'Vue3 CDN Scaffold',
-  baseURL: '/api',
+          <pre><code>window.SITE_CONFIG = {
+  title: 'Vue3 CDN Scaffold', // 站点标题，用于页面 title 等展示。
+  description: '基于原生 Vue 3 CDN + ESM，免编译、零打包、开箱即用的极简前端开发脚手架。本文档详细介绍了项目中集成的核心模块及其具体用法。', // 站点说明，用于页面介绍、SEO 或组件展示。
+  copyright: 'Copyright © 2026', // 版权信息，用于页脚展示。
+  baseURL: '/api', // 接口请求基础路径。
+  version: '1.0.0(2026-06-01)', // 站点版本号，方便展示或排查当前发布版本。
+  remCssVersion: '202606021', // rem CSS 版本号，拼接到样式 URL 后用于控制浏览器缓存更新。
+  remCssUrls: ['./assets/css/global.css'], // 需要运行时转换 px -> rem 的全局样式表。
+  openPxToRem: false, // 是否开启运行时 px -> rem 转换。
+  pxToRemBase: 16, // px 转 rem 的换算基准，16px = 1rem。
+  designWidth: 375, // 设计稿宽度，用于按视口比例计算 html 根字号。
+  minRootFontSize: 14, // html 根字号最小值，避免小屏字号过小。
+  maxRootFontSize: 36 // html 根字号最大值，避免大屏字号过大。
 };</code></pre>
-        </div>
-        <div class="usage-guide" v-pre>
-          <h4>💡 使用示例：</h4>
-          <p>在任意组件、路由卫士或请求封装拦截器中，直接读取 <code>window.SITE_INFO</code> 下的配置项：</p>
-          <pre><code>// axios 拦截器中使用 baseURL
-axios.defaults.baseURL = (window.SITE_INFO && window.SITE_INFO.baseURL) || '/api'
-
-// 路由卫士中动态修改网页 Title
-document.title = window.SITE_INFO.title</code></pre>
         </div>
       </section>
     </main>
@@ -311,7 +312,7 @@ defineOptions({
 })
 
 // 获取全局站点信息
-const siteInfo = window.SITE_INFO
+const siteInfo = window.SITE_CONFIG
 
 // 平滑滚动到指定锚点，避免与 Hash 路由冲突，并留出粘性导航栏的高度
 function scrollToSection(id) {
@@ -708,4 +709,3 @@ pre code {
   border-bottom: none;
 }
 </style>
-

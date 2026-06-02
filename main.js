@@ -2,6 +2,12 @@
 const { createApp } = Vue
 const { createPinia } = Pinia
 
+// 载入PX TO REM样式表
+const { remCssUrls = [], remCssVersion } = window.SITE_CONFIG || {}
+remCssUrls.forEach(url => {
+  window.loadRemCss(remCssVersion ? url + '?v=' + remCssVersion : url)
+})
+
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate.default)
 
@@ -26,5 +32,5 @@ app.use(router)
 
 app.mount('#app')
 
-window.vueApp=app
+window.vueApp = app
 

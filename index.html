@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Vue3 CDN App</title>
   <link rel="icon" href="./favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="./assets/css/global.css" />
+  <!-- <script>
+    //PX TO REM CSS 版本控制，强制浏览器更新缓存
+    window.REM_CSS_VERSION = '2026060101'
+    window.REM_CSS_URLS = [
+      './assets/css/global.css'
+    ]
+  </script> -->
   <!-- 合并后的第三方依赖打包库 -->
   <script src="./assets/libs/vendor.min.js"></script>
 
 </head>
+
 <body>
   <div id="app"></div>
 
@@ -20,4 +29,5 @@
   <script src="./stores/appInfo.js"></script>
   <script type="module" src="./main.js"></script>
 </body>
+
 </html>

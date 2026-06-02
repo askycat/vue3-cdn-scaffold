@@ -6,7 +6,7 @@ const axios = window.axios
 
 // 全局 axios 默认值
 axios.defaults.timeout = 500000
-axios.defaults.baseURL =  window.SITE_INFO?.baseURL2 || ''
+axios.defaults.baseURL =  window.SITE_CONFIG?.baseURL2 || ''
 axios.defaults.headers = {
     'Content-Type': 'application/json;'
 }
