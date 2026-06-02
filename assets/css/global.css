@@ -26,11 +26,6 @@ ol {
 
 /* 设置页面主体默认样式 */
 body {
-  min-height: 100vh;
-  line-height: 1.5;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
-  color: #1f2937;
-  background-color: #f9fafb;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;

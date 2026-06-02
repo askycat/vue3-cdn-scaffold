@@ -23,7 +23,7 @@
 
     <!-- 文档主体内容 -->
     <main class="doc-content">
-      
+
       <!-- 模块 1: 动态组件与路由加载 -->
       <section id="section-loader" class="doc-section">
         <h2 class="section-title"><span class="number">01.</span> 动态加载器 (vue3-sfc-loader)</h2>
@@ -187,9 +187,10 @@ const fetchData = async () => {
       <section id="section-i18n" class="doc-section">
         <h2 class="section-title"><span class="number">05.</span> 国际化语言支持 (vue-i18n) 与 CSV 自动构建工具</h2>
         <p class="section-desc">
-          国际化模块使用原生 ES 模块的 Top-level await，在初始化加载阶段直接请求 JSON 文件填充本地语言字典。为了方便翻译维护，项目提供了一套专用的 <code>CSV -> JSON</code> 自动构建机制，使得非技术人员直接通过 Excel 编辑 CSV 即可更新翻译包。
+          国际化模块使用原生 ES 模块的 Top-level await，在初始化加载阶段直接请求 JSON 文件填充本地语言字典。为了方便翻译维护，项目提供了一套专用的 <code>CSV -> JSON</code>
+          自动构建机制，使得非技术人员直接通过 Excel 编辑 CSV 即可更新翻译包。
         </p>
-        
+
         <!-- 自动构建工具说明 -->
         <div class="csv-table-wrapper" v-pre>
           <div class="table-title">📂 i18n/langs.csv（数据源表格结构示意）</div>
@@ -247,8 +248,10 @@ try {
         <div class="usage-guide" v-pre>
           <h4>💡 使用与构建说明：</h4>
           <p>
-            1. <strong>表格维护</strong>：直接编辑 <code>i18n/langs.csv</code>。表格首行为双列结构：第一列为 <code>zh-CN</code>（中文原句，直接作为翻译主键），第二列为 <code>en-US</code>（对应的英文翻译）。<br>
-            2. <strong>一键打包</strong>：在终端执行 <code>node i18n/build.js</code>，系统将读取该 CSV 表并自动为各语种编译、分割、导出独立的 <code>zh-CN.json</code> 和 <code>en-US.json</code> 词典文件。<br>
+            1. <strong>表格维护</strong>：直接编辑 <code>i18n/langs.csv</code>。表格首行为双列结构：第一列为
+            <code>zh-CN</code>（中文原句，直接作为翻译主键），第二列为 <code>en-US</code>（对应的英文翻译）。<br>
+            2. <strong>一键打包</strong>：在终端执行 <code>node i18n/build.js</code>，系统将读取该 CSV 表并自动为各语种编译、分割、导出独立的
+            <code>zh-CN.json</code> 和 <code>en-US.json</code> 词典文件。<br>
             3. <strong>模版中使用</strong>：模版中直接翻译，或通过 i18n 提供的组合式 API 进行切换：
           </p>
           <pre><code>&lt;template&gt;
@@ -326,7 +329,15 @@ function scrollToSection(id) {
   }
 }
 </script>
-
+<style>
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
+  color: #1f2937;
+  background: #f9fafb;
+}
+</style>
 <style scoped>
 /* 全局页面居中与清爽炫酷风格 */
 .doc-container {
@@ -405,7 +416,8 @@ function scrollToSection(id) {
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  background: rgba(245, 247, 251); /* 匹配全局底色并带有高透明度 */
+  background: rgba(245, 247, 251);
+  /* 匹配全局底色并带有高透明度 */
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   padding: 16px 12px;
@@ -433,7 +445,7 @@ function scrollToSection(id) {
   border: 1px solid #e2e8f0;
   text-align: center;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
 .nav-btn:hover {
@@ -560,7 +572,7 @@ pre code {
 }
 
 /* 行内代码（比如段落里的文件名、库名等）的字色与背景 */
-:not(pre) > code {
+:not(pre)>code {
   color: #0f172a;
   background: #f1f5f9;
   border: 1.5px solid #e2e8f0;
@@ -610,7 +622,7 @@ pre code {
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   padding: 14px;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.01);
 }
 
 .usage-guide pre code {
@@ -635,28 +647,35 @@ pre code {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
 @media (max-width: 480px) {
   .quick-nav {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
 @media (max-width: 640px) {
   .hero-title {
     font-size: 34px;
   }
+
   .doc-container {
     padding: 24px 12px;
   }
+
   .doc-section {
     padding: 20px 14px;
   }
+
   pre {
     padding: 14px;
   }
+
   .csv-table-wrapper {
     padding: 12px;
   }
 }
+
 /* i18n CSV 数据源表格美化样式 */
 .csv-table-wrapper {
   background: #ffffff;
