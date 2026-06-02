@@ -25,12 +25,18 @@ const routes = [
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    }
+    return { top: 1, left: 0 }
+  }
 })
 
 router.beforeEach(function (to, from, next) {
   const titleKey = to.meta.title
-  let title = (window.SITE_CONFIG && window.SITE_CONFIG.title)
+  let title = (window.SITE_CONFIG && window.SITE_CONFIG.title)||''
   if(titleKey)
     title = i18n.global.t(titleKey) + ' | ' + title
   document.title = title
