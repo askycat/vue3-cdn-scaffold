@@ -1,6 +1,6 @@
-/* Modern CSS Reset & Base Styles */
+/* 现代 CSS 重置与基础样式 */
 
-/* 1. Box sizing rules & tap highlight reset */
+/* 盒模型与点击高亮重置 */
 *,
 *::before,
 *::after {
@@ -9,21 +9,22 @@
   padding: 0;
 }
 
-/* 2. Prevent font size inflation and set up smooth behavior */
+/* 禁止系统自动放大文字，并设置页面滚动行为 */
 html {
+  min-height: 100%;
   -moz-text-size-adjust: none;
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
-/* 3. Remove list styles on ul, ol elements */
+/* 移除列表默认样式 */
 ul,
 ol {
   list-style: none;
 }
 
-/* 4. Set core body defaults */
+/* 设置页面主体默认样式 */
 body {
   min-height: 100vh;
   line-height: 1.5;
@@ -34,9 +35,30 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   -webkit-tap-highlight-color: transparent;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* 5. A elements that don't have a class get default styles */
+#app {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: inherit;
+}
+
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* 未设置 class 的链接保留默认文本装饰优化 */
 a:not([class]) {
   text-decoration-skip-ink: auto;
 }
@@ -46,7 +68,7 @@ a {
   text-decoration: none;
 }
 
-/* 6. Make images and media easier to work with */
+/* 让图片和媒体元素更易布局 */
 img,
 picture,
 svg,
@@ -56,7 +78,7 @@ canvas {
   display: block;
 }
 
-/* 7. Inherit fonts for inputs and buttons */
+/* 表单控件继承字体 */
 input,
 button,
 textarea,
@@ -67,17 +89,22 @@ select {
   border: none;
 }
 
-/* 8. Make buttons interactive */
+/* 按钮使用可点击光标 */
 button {
   cursor: pointer;
 }
 
-/* 9. Textarea default height */
+button,
+input {
+  outline: none;
+}
+
+/* 文本域默认只允许垂直调整大小 */
 textarea {
   resize: vertical;
 }
 
-/* 10. Remove all animations, transitions and smooth scrolls for people that prefer not to see them */
+/* 尊重减少动态效果偏好，关闭动画、过渡和平滑滚动 */
 @media (prefers-reduced-motion: reduce) {
   html:focus-within {
     scroll-behavior: auto;
