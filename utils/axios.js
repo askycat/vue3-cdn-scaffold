@@ -76,7 +76,7 @@ export default {
         return data
     },
 
-    async download(url, filename, params, method = 'get', options = {}) {
+    async downloadAsync(url, filename, params, method = 'get', options = {}) {
         const {
             autoHandleError = true
         } = options

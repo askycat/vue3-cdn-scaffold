@@ -550,7 +550,7 @@ const downloadImage = async () => {
     downloadStatus.value = 'downloading'
     try {
         const imageUrl = 'https://disk.sample.cat/samples/jpg/monalisa-1200x1200.jpg'
-        await http.download(imageUrl, '下载的图片.jpg')
+        await http.downloadAsync(imageUrl, '下载的图片.jpg')
         downloadStatus.value = 'completed'
         setTimeout(() => {
             downloadStatus.value = 'idle'
