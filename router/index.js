@@ -4,7 +4,7 @@ import i18n from '../i18n/index.js'
 // 路由定义数组 (一行一个配置项)
 const routeDefinitions = [
   { path: '/home', component: 'Home', title: '首页' },
-  { path: '/mobile-demo', component: 'MobileDemo', title: '示例页面' },
+  { path: '/showcase', component: 'Showcase', title: '参考页面' },
   { path: '/:pathMatch(.*)*', component: '404', title: '页面不存在' }
 ]
 

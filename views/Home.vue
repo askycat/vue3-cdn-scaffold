@@ -17,7 +17,7 @@
         <a href="#" @click.prevent="scrollToSection('section-directive')" class="nav-btn">🔒 权限指令</a>
         <a href="#" @click.prevent="scrollToSection('section-i18n')" class="nav-btn">💬 国际化</a>
         <a href="#" @click.prevent="scrollToSection('section-config')" class="nav-btn">⚙️ 站点配置</a>
-        <router-link to="/mobile-demo" class="nav-btn">📱 示例页面</router-link>
+        <router-link to="/showcase" class="nav-btn">📱 示例页面</router-link>
       </div>
     </nav>
 

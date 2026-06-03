@@ -1,5 +1,5 @@
-import http from './http.js'
 import i18n from './i18n.js'
+import http from './http.js'
 
 const plugins = [http, i18n]
 

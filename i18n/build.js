@@ -1,7 +1,20 @@
 const fs = require('fs');
 const path = require('path');
 
-const csvPath = path.join(__dirname, 'langs.csv');
+const csvPath = path.join(__dirname, 'lang.csv');
+const indexPath = path.join(__dirname, 'index.js');
+
+function formatTimestamp(date) {
+  const pad = value => String(value).padStart(2, '0');
+  return [
+    date.getFullYear(),
+    pad(date.getMonth() + 1),
+    pad(date.getDate()),
+    pad(date.getHours()),
+    pad(date.getMinutes()),
+    pad(date.getSeconds())
+  ].join('');
+}
 
 // 自定义 CSV 解析器（支持双引号包裹、逗号和换行符转义）
 function parseCSV(text) {
@@ -70,20 +83,52 @@ try {
       const val = row[langIndex];
       if (lang === 'zh-CN') {
         translations[lang][key] = key; // 中文始终映射为其自身作为键值
-      } else {
-        translations[lang][key] = val ? val.trim() : key; // 其它语言缺省使用中文
+        return;
       }
+
+      const translated = val ? val.trim() : '';
+      if (!translated) return;
+
+      translations[lang][key] = translated;
     });
   }
 
   // 写入 JSON 档
-  Object.keys(translations).forEach(lang => {
-    const data = translations[lang];
-    const jsonPath = path.join(__dirname, `${lang}.json`);
+  const generatedAt = new Date();
+  const langJsonFileName = `lang.${formatTimestamp(generatedAt)}.json`;
+  const langJsonPath = path.join(__dirname, langJsonFileName);
+  fs.writeFileSync(langJsonPath, JSON.stringify({
+    messages: translations
+  }), 'utf8');
+  console.log(`Generated JSON: ${langJsonPath}`);
 
-    fs.writeFileSync(jsonPath, JSON.stringify(data, null, 2), 'utf8');
-    console.log(`Generated JSON: ${jsonPath}`);
-  });
+  const indexContent = fs.readFileSync(indexPath, 'utf8');
+  const nextIndexContent = indexContent.replace(
+    /(fetch\(['"]\.\/i18n\/)lang(?:\.\d+)?\.json(['"](?:\s*,[^)]*)?\))/,
+    `$1${langJsonFileName}$2`
+  );
+
+  if (nextIndexContent === indexContent) {
+    throw new Error('未能在 index.js 中找到 lang.json 请求路径');
+  }
+
+  fs.writeFileSync(indexPath, nextIndexContent, 'utf8');
+  console.log(`Updated i18n index: ${indexPath}`);
+
+  fs.readdirSync(__dirname)
+    .filter(fileName => /^lang(?:\.\d+)?\.json$/.test(fileName) && fileName !== langJsonFileName)
+    .forEach(fileName => {
+      fs.unlinkSync(path.join(__dirname, fileName));
+      console.log(`Removed old JSON: ${fileName}`);
+    });
+
+  // Object.keys(translations).forEach(lang => {
+  //   const data = translations[lang];
+  //   const jsonPath = path.join(__dirname, `${lang}.json`);
+
+  //   fs.writeFileSync(jsonPath, JSON.stringify(data, null, 2), 'utf8');
+  //   console.log(`Generated JSON: ${jsonPath}`);
+  // });
 
   console.log('Translations generated successfully!');
 } catch (error) {

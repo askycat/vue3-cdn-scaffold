@@ -1,29 +1,28 @@
 const { createI18n } = VueI18n
+const { watch } = Vue
 
-const lang = localStorage.getItem('lang') || 'zh-CN'
+const STORAGE_KEY = 'lang'
+const DEFAULT_LOCALE = 'zh-CN'
+const FALLBACK_LOCALE = 'zh-CN'
+const lang = localStorage.getItem(STORAGE_KEY) || DEFAULT_LOCALE
+
+const res = await fetch('./i18n/lang.20260603165656.json', {cache: 'force-cache'})
+const i18nResource = await res.json()
+
 
 // 1. 同步创建一个初始的 i18n 实例
 const i18n = createI18n({
-  legacy: false, // 启用组合式 API 支持
+  legacy: false, // Vue 3 Composition API 
   locale: lang,
-  fallbackLocale: 'en-US',
-  messages: {
-    'zh-CN': {},
-    'en-US': {}
-  }
+  fallbackLocale: FALLBACK_LOCALE,
+  messages: i18nResource.messages || {}
 })
 
-// 2. 利用原生 ES 模块的 Top-level await，在模块加载阶段异步获取并填充 JSON 语言包数据
-try {
-  const [zhRes, enRes] = await Promise.all([
-    fetch('./i18n/zh-CN.json').then(r => r.json()),
-    fetch('./i18n/en-US.json').then(r => r.json())
-  ])
-
-  i18n.global.setLocaleMessage('zh-CN', zhRes)
-  i18n.global.setLocaleMessage('en-US', enRes)
-} catch (error) {
-  console.error('加载 JSON 语言包失败:', error)
-}
+watch(
+  i18n.global.locale,
+  value => {
+    localStorage.setItem(STORAGE_KEY, value)
+  }
+)
 
 export default i18n
