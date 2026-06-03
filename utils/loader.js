@@ -102,23 +102,50 @@
   window.sfcOptions = options
 
 
-  const isIosSafari = /iP(hone|od|ad)/.test(navigator.platform) && /^((?!crios|fxios|edgios|chrome|android).)*safari/i.test(navigator.userAgent)
+  const isIos = /iP(hone|od|ad)/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
 
-  if (isIosSafari) {
-    // 阻止 iOS Safari 双指手势触发页面缩放。
-    document.addEventListener('gesturestart', function (event) {
+  function preventEvent(event) {
+    if (event.cancelable) {
       event.preventDefault()
-    }, { passive: false })
+    }
+  }
+
+  if (isIos) {
+    const zoomStyle = document.createElement('style')
+    zoomStyle.textContent = 'html,body,#app{touch-action:manipulation;}input,textarea,select{font-size:16px;}'
+    document.head.appendChild(zoomStyle)
+
+    ;['gesturestart', 'gesturechange', 'gestureend'].forEach(function (eventName) {
+      document.addEventListener(eventName, preventEvent, { passive: false, capture: true })
+    })
+
+    document.addEventListener('touchstart', function (event) {
+      if (event.touches && event.touches.length > 1) {
+        preventEvent(event)
+      }
+    }, { passive: false, capture: true })
+
+    document.addEventListener('touchmove', function (event) {
+      if (event.touches && event.touches.length > 1) {
+        preventEvent(event)
+      }
+    }, { passive: false, capture: true })
 
     let lastTouchEnd = 0
     // 阻止 iOS Safari 双击触发页面缩放。
     document.addEventListener('touchend', function (event) {
       const now = Date.now()
-      if (now - lastTouchEnd <= 300) {
-        event.preventDefault()
+      const target = event.target
+      const isEditable = target && target.closest && target.closest('input, textarea, select, [contenteditable="true"]')
+
+      if (!isEditable && now - lastTouchEnd < 350) {
+        preventEvent(event)
       }
+
       lastTouchEnd = now
-    }, { passive: false })
+    }, { passive: false, capture: true })
+
+    document.addEventListener('dblclick', preventEvent, { passive: false, capture: true })
   }
 
 
