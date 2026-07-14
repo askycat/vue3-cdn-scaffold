@@ -56,12 +56,18 @@
     async getFile(url) {
       const res = await fetch(url)
       if (!res.ok) {
-        throw new Error(`加载文件失败：${url}`)
+        //console.error(`加载文件失败：${url}`); 
       }
 
       const source = await res.text()
       // vue3-sfc-loader 读取 .vue 文件时，在源码阶段完成 px -> rem。
       return /\.vue(?:[?#]|$)/.test(url) && openPxToRem ? pxToRem(source) : source
+    },
+
+    async handleModule(type, getContentData, path, options) {
+      if (!/\.vue(?:[?#]|$)/.test(type)) {
+        return path
+      }
     },
 
     addStyle(styleText) {
