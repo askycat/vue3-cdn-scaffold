@@ -498,40 +498,28 @@ const stopLoading = (finalStatus) => {
     reqStatus.value = finalStatus
 }
 
-// get请求
-const fetchData = async () => {
-    try {
-        const response = await http.getAsync('mock.json', {})
-        if (response.code !== 0) {
-            console.error('请求失败:', response.message)
-            stopLoading('error')
-            responseData.value = `请求失败: ${response.message}`
-            return
-        }   
+// get请求 链式 调用示例
+const fetchData =  () => {
+  http.getAsync('/api/mock.json', {}).then(res =>{
         stopLoading('success')
-        responseData.value = JSON.stringify(response.data, null, 2)
-    } catch (e) {
+        responseData.value = JSON.stringify(res.data, null, 2)
+  }).catch(e=>{
         stopLoading('error')
         responseData.value = `网络异常: ${e.message}`
-    }
-}
-
-// 自动处理失败示例 (默认自动处理失败)
+    })
+  }
+// 自动处理失败示例 (默认自动处理失败) 链式调用
 const fetchDataByAutoHandleError = async () => {
-    try {
-        const response = await http.getAsync('mock-fail.json', {})
+    http.getAsync('/api/mock-fail.json', {}).catch(e => {
         stopLoading('error')
-        responseData.value = '自动拦截错误已触发 (页面已弹出 alert)\n\n接口返回内容:\n' + JSON.stringify(response, null, 2)
-    } catch (e) {
-        stopLoading('error')
-        responseData.value = `发生异常: ${e.message || '请求失败'}`
-    }
+        responseData.value = '自动拦截错误已触发 (页面已弹出 alert)\n\n接口返回内容:\n' + JSON.stringify(e, null, 2)
+    })  
 }
 
-// 手动处理失败示例
+// 手动处理失败示例  同步调用
 const fetchDataByManualHandleError = async () => {
     try {
-        const response = await http.getAsync('mock-fail.json', {}, { autoHandleError: false })
+        const response = await http.getAsync('/api/mock-fail.json', {}, { autoHandleError: false })
         if (response.code !== 0) {
             stopLoading('error')
             responseData.value = '手动处理失败 (静默拦截，未弹出全局 alert):\n\n' + JSON.stringify(response, null, 2)

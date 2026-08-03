@@ -52,6 +52,7 @@ export default {
         if (data.code != 0) {
             if (autoHandleError) {
                alert('统一处理失败:' + data.message)
+               return Promise.reject(data) //中断 抛出异常
             }
         }
 
@@ -69,7 +70,7 @@ export default {
         if (data.code != 0) {
             if (autoHandleError) {
                 alert('统一处理失败:' + data.message)
-                throw data
+                return Promise.reject(data)
             }
         }
 
