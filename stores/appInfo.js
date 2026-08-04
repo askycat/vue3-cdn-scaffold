@@ -3,6 +3,7 @@ window.useAppInfoStore = Pinia.defineStore('appInfo', {
 
   state: () => ({
     token: '',
+    tokenExpiresAt: 0, // Token 过期时间戳
     userInfo: null,
     permissions: [] // 拥有的权限列表，例如：['user-add', 'user-edit']
   }),
@@ -17,8 +18,17 @@ window.useAppInfoStore = Pinia.defineStore('appInfo', {
 
   actions: {
     // 设置 Token
-    setToken(token) {
+    setToken(token, expiresInHours = 12) {
       this.token = token
+      this.tokenExpiresAt = token ? Date.now() + Number(expiresInHours) * 60 * 60 * 1000 : 0
+
+      if (token) {
+        localStorage.setItem('token', token)
+        localStorage.setItem('token-expires-at', this.tokenExpiresAt)
+      } else {
+        localStorage.removeItem('token')
+        localStorage.removeItem('token-expires-at')
+      }
     },
     // 设置用户信息
     setUserInfo(userInfo) {
