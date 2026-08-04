@@ -100,6 +100,7 @@ HTTP 插件位于 `plugins/http.js`，封装位于 `utils/axios.js`。
 - 默认 `autoHandleError: true`，接口 `code != 0` 时统一 alert。
 - 需要静默处理失败时传 `{ autoHandleError: false }`，参考 `Showcase.vue` 的手动失败请求。
 - 文件下载使用 `downloadAsync(url, filename, params, method, options)`。
+- api调用 优先使用链式  不要try catch
 
 ## 国际化约定
 
