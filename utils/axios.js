@@ -71,21 +71,19 @@ async function refreshToken() {
 
 // 添加请求拦截器：在发送请求前校验并在即将过期的 5 分钟内完成无感刷新
 axios.interceptors.request.use(async function (config) {
-    // 1. 排除白名单接口，直接放行
-    const isWhiteListed = WHITE_LIST.some(path => config.url.includes(path))
-    if (isWhiteListed) {
-        return config
-    }
 
     let token = localStorage.getItem('token')
-    const expiresAt = Number(localStorage.getItem('token-expires-at')) || 0
-    const now = Date.now()
-
+    
     if (token) {
+        // 1. 排除白名单接口
+        const isWhiteListed = WHITE_LIST.some(path => config.url.includes(path))
+
+        const expiresAt = Number(localStorage.getItem('token-expires-at')) || 0
+        const now = Date.now()
         // 计算 Token 距离过期的剩余毫秒数
         const timeRemaining = expiresAt - now
 
-        if (timeRemaining >0 && timeRemaining <= TOKEN_REFRESH_WINDOW) {
+        if (!isWhiteListed && timeRemaining >0 && timeRemaining <= TOKEN_REFRESH_WINDOW) {
             // 2. 未过期，但剩余时间 <= 5 分钟：前置静默刷新 Token
             
             // 防并发控制：如果已有请求在刷新中，直接等待其完成，不重复发起请求
