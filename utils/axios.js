@@ -57,11 +57,12 @@ async function refreshToken() {
             return token
         } else {
             throw new Error(res.data?.message)
+            return ''
         }
     } catch (error) {
         // 刷新失败，清空本地存储并跳转登录
-        logout()
-        return Promise.reject(error)
+       clearAuthSession()
+       redirectToLogin()
     } finally {
         isRefreshing = false
         refreshPromise = null
@@ -114,7 +115,8 @@ axios.interceptors.response.use(function (response) {
         // 设备网络异常
     } else if (error.response.status === 401) {
         // 登录失效（如未过期但 Token 被服务端手动作废）
-       logout()
+       clearAuthSession()
+       redirectToLogin()
     } else if (error.response.status === 403) {
         // 权限不足
     } else if (error.response.status === 404) {
