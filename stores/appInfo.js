@@ -41,8 +41,11 @@ window.useAppInfoStore = Pinia.defineStore('appInfo', {
     // 清除登录状态
     logout() {
       this.token = ''
+      this.tokenExpiresAt = 0
       this.userInfo = null
       this.permissions = []
+      localStorage.removeItem('token')
+      localStorage.removeItem('token-expires-at')
     }
   }
 })
