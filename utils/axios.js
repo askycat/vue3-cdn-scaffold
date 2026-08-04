@@ -20,7 +20,7 @@ const TOKEN_REFRESH_WINDOW = 5 * 60 * 1000 // 5 分钟（毫秒）
 const WHITE_LIST = [
     '/api/auth/login',   // 登录接口
     '/api/auth/logout',  // 登出接口
-    '/api/auth/refresh'  // 刷新 Token 接口
+    '/api/auth/refreshtoken'  // 刷新 Token 接口
 ]
 
 function clearAuthSession() {
