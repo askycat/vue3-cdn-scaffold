@@ -24,7 +24,7 @@ const WHITE_LIST = [
 ]
 
 function clearAuthSession() {
-    const store = window.useAppInfoStore?.()
+    const store = window.useAppStore?.()
     if (store) store.logout()
 }
 
@@ -52,7 +52,7 @@ async function refreshToken() {
         // 假设接口返回格式为：{ code: 0, data: { token: '...', expiresInHours: 10h } }
         if (res.data && res.data.code === 0) {
             const { token, expiresInHours } = res.data.data
-            const store = window.useAppInfoStore?.()
+            const store = window.useAppStore?.()
             store?.setToken(token, expiresInHours)
             return token
         } else {

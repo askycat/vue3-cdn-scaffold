@@ -1,6 +1,6 @@
 function checkPermission(el, binding) {
-  // 从全局 Pinia appInfo store 获取持有的权限列表
-  const userStore = useAppInfoStore()
+  // 从全局 Pinia app store 获取持有的权限列表
+  const userStore = useAppStore()
   const permissions = userStore.permissions || []
 
   // 此操作需要的权限 (支持 v-permission="'user'" 字符串值，或 v-permission:user 冒号参数)

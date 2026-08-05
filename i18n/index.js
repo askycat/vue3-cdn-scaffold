@@ -6,7 +6,7 @@ const DEFAULT_LOCALE = 'zh-CN'
 const FALLBACK_LOCALE = 'zh-CN'
 const lang = localStorage.getItem(STORAGE_KEY) || DEFAULT_LOCALE
 
-const res = await fetch('./i18n/lang.20260603165656.json', {cache: 'force-cache'})
+const res = await fetch('./i18n/lang.20260805230635.json', {cache: 'force-cache'})
 const i18nResource = await res.json()
 
 

@@ -1,4 +1,4 @@
-window.useAppInfoStore = Pinia.defineStore('appInfo', {
+window.useAppStore = Pinia.defineStore('app', {
   persist: true,
 
   state: () => ({

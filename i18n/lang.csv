@@ -7,7 +7,7 @@ zh-CN,en-US
 ⚙️ 增加 (直接修改),⚙️ Increase (Direct Modify)
 🔄 重置,🔄 Reset
 🔒 权限指令验证,🔒 Permission Directive Validation
-通过对接全局 `appInfo` store 和自定义的 `v-permission` 指令来动态过滤控制组件的渲染。,Integrates with the global `appInfo` store and custom `v-permission` directive to filter rendering dynamically.
+通过对接全局 `app` store 和自定义的 `v-permission` 指令来动态过滤控制组件的渲染。,Integrates with the global `app` store and custom `v-permission` directive to filter rendering dynamically.
 当前权限列表:,Current Permission List:
 🙋 包含 'user' 权限时显示,🙋 Show when 'user' exists
 👑 包含 'admin' 权限时显示,👑 Show when 'admin' exists

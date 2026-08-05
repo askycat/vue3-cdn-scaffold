@@ -161,7 +161,7 @@ const fetchData = async () => {
             <span class="code-path">directives/permission.js</span>
           </div>
           <pre><code>function checkPermission(el, binding) {
-  const userStore = useAppInfoStore()
+  const userStore = useAppStore()
   const permissions = userStore.permissions || []
   let permission = binding.value || binding.arg
 

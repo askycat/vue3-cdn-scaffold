@@ -246,7 +246,7 @@
 
           <!-- Auth Sub-demo -->
           <div class="demo-sub-section margin-top">
-            <div class="sub-title">模拟登录会话演示 (useAppInfoStore)：</div>
+            <div class="sub-title">模拟登录会话演示 (useAppStore)：</div>
             
             <div v-if="appStore.token" class="login-profile">
               <div class="profile-info">
@@ -432,7 +432,7 @@ console.log(t('多语言示例'))
 console.log("当前语言：", locale.value)
 
 // 脚本里使用全局store
-const appStore = useAppInfoStore()
+const appStore = useAppStore()
 
 // 获取全局配置
 const siteConfig = window.SITE_CONFIG

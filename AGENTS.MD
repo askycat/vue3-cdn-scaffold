@@ -79,13 +79,13 @@ window.SITE_CONFIG = {
 
 Pinia store 以全局State函数挂载：
 
-- `stores/appInfo.js` 暴露 `window.useAppInfoStore`
+- `stores/app.js` 暴露 `window.useAppStore`
 
 约定：
 
 - store 使用 `persist: true`，状态会持久化到本地。
-- 在 SFC `<script setup>` 中可以直接调用 `useAppInfoStore()`。
-- 权限列表来自 `appInfo.permissions`。
+- 在 SFC `<script setup>` 中可以直接调用 `useAppStore()`。
+- 权限列表来自 `app.permissions`。
 - 权限指令支持 `v-permission="'admin'"` 和 `v-permission:user` 两种写法。
 - 系统全局的保存在此地方
 
@@ -131,4 +131,3 @@ i18n 配置位于 `i18n/index.js`。
 - 不要随意改动 `assets/libs/vendor.min.js`。
 - 不要把第三方 CDN 依赖拆进 npm 包管理，除非用户明确要求重构项目。
 - 代码以清晰直接为主，避免引入复杂抽象。
-
