@@ -1,3 +1,7 @@
+// 旧版本曾单独写入 token / token-expires-at；现在统一收敛到 Pinia persisted 的 app 键。
+localStorage.removeItem('token')
+localStorage.removeItem('token-expires-at')
+
 window.useAppStore = Pinia.defineStore('app', {
   persist: true,
 
@@ -21,14 +25,6 @@ window.useAppStore = Pinia.defineStore('app', {
     setToken(token, expiresInHours = 12) {
       this.token = token
       this.tokenExpiresAt = token ? Date.now() + Number(expiresInHours) * 60 * 60 * 1000 : 0
-
-      if (token) {
-        localStorage.setItem('token', token)
-        localStorage.setItem('token-expires-at', this.tokenExpiresAt)
-      } else {
-        localStorage.removeItem('token')
-        localStorage.removeItem('token-expires-at')
-      }
     },
     // 设置用户信息
     setUserInfo(userInfo) {
@@ -44,8 +40,6 @@ window.useAppStore = Pinia.defineStore('app', {
       this.tokenExpiresAt = 0
       this.userInfo = null
       this.permissions = []
-      localStorage.removeItem('token')
-      localStorage.removeItem('token-expires-at')
     }
   }
 })

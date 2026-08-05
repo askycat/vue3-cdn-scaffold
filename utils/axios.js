@@ -28,6 +28,10 @@ function clearAuthSession() {
     if (store) store.logout()
 }
 
+function getAppStore() {
+    return window.useAppStore?.()
+}
+
 function redirectToLogin() {
     const currentPath = window.location.hash
     if (currentPath.indexOf('#/login')>-1) return
@@ -38,7 +42,8 @@ function redirectToLogin() {
  * 静默刷新 Token 方法
  */
 async function refreshToken() {
-    const oldToken = localStorage.getItem('token')
+    const store = getAppStore()
+    const oldToken = store?.token || ''
     try {
         // 使用原始 axios 发送请求，避免再次触发 request 拦截器导致死循环
         const res = await axios({
@@ -52,7 +57,6 @@ async function refreshToken() {
         // 假设接口返回格式为：{ code: 0, data: { token: '...', expiresInHours: 10h } }
         if (res.data && res.data.code === 0) {
             const { token, expiresInHours } = res.data.data
-            const store = window.useAppStore?.()
             store?.setToken(token, expiresInHours)
             return token
         } else {
@@ -72,13 +76,14 @@ async function refreshToken() {
 // 添加请求拦截器：在发送请求前校验并在即将过期的 5 分钟内完成无感刷新
 axios.interceptors.request.use(async function (config) {
 
-    let token = localStorage.getItem('token')
+    const store = getAppStore()
+    let token = store?.token || ''
     
     if (token) {
         // 1. 排除白名单接口
         const isWhiteListed = WHITE_LIST.some(path => config.url.includes(path))
 
-        const expiresAt = Number(localStorage.getItem('token-expires-at')) || 0
+        const expiresAt = Number(store?.tokenExpiresAt) || 0
         const now = Date.now()
         // 计算 Token 距离过期的剩余毫秒数
         const timeRemaining = expiresAt - now

@@ -95,7 +95,7 @@ HTTP 插件位于 `plugins/http.js`，封装位于 `utils/axios.js`。
 
 - `window.http`、`app.provide('http', http)` 和 `$http` 都会挂载同一套 API。
 - `axios.defaults.baseURL` 来自 `window.SITE_CONFIG.baseURL`。
-- 请求头会从 `localStorage.getItem('token')` 写入 `authorization`。
+- 请求头从 `useAppStore().token` 写入 `authorization`，不要再单独维护 `token` / `token-expires-at` 两个 localStorage 键。
 - `getAsync(url, params, options)` 和 `postAsync(url, params, options)` 支持 `autoHandleError`。
 - 默认 `autoHandleError: true`，接口 `code != 0` 时统一 alert。
 - 需要静默处理失败时传 `{ autoHandleError: false }`，参考 `Showcase.vue` 的手动失败请求。
