@@ -1,116 +1,152 @@
-/* 现代 CSS 重置与基础样式 */
+/* ========================================================================== */
+/* 第三方基础重置：modern-normalize v3.0.1                                   */
+/* MIT License | https://github.com/sindresorhus/modern-normalize             */
+/* ========================================================================== */
 
-/* 盒模型与点击高亮重置 */
 *,
-*::before,
-*::after {
+::after,
+::before {
   box-sizing: border-box;
+}
+
+html {
+  font-family: 'Noto Sans SC', system-ui, sans-serif;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+}
+
+body {
   margin: 0;
+}
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 1em;
+}
+
+small {
+  font-size: 80%;
+}
+
+sub,
+sup {
+  position: relative;
+  font-size: 75%;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+table {
+  border-color: currentcolor;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+}
+
+[type='button'],
+[type='reset'],
+[type='submit'],
+button {
+  -webkit-appearance: button;
+}
+
+legend {
   padding: 0;
 }
 
-/* 禁止系统自动放大文字，并设置页面滚动行为 */
-html {
-  min-height: 100%;
-  -moz-text-size-adjust: none;
-  -webkit-text-size-adjust: none;
-  text-size-adjust: none;
-  scroll-behavior: auto;
+progress {
+  vertical-align: baseline;
 }
 
-/* 移除列表默认样式 */
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+
+[type='search'] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}
+
+summary {
+  display: list-item;
+}
+
+/* ========================================================================== */
+/* 项目自定义重置：仅补充项目需要的规则                                      */
+/* ========================================================================== */
+
+/* 清除浏览器默认外边距和内边距，盒模型已由 modern-normalize 统一 */
+*,
+*::before,
+*::after {
+  margin: 0; /* 清除浏览器默认外边距 */
+  padding: 0; /* 清除浏览器默认内边距 */
+}
+
+/* 页面基础 */
+/* 页面至少占满视口高度*/
+html {
+  min-height: 100%; /* 页面至少占满视口高度 */
+}
+
+/* 设置全站字体渲染和数字显示方式 */
+body {
+  font-variant-numeric: tabular-nums; /* 数字使用等宽字形便于对齐 */
+  font-synthesis: none; /* 禁止浏览器合成伪粗体和伪斜体 */
+  -webkit-font-smoothing: antialiased; /* 优化 WebKit 字体抗锯齿 */
+  -moz-osx-font-smoothing: grayscale; /* 优化 macOS Firefox 字体抗锯齿 */
+  text-rendering: optimizeLegibility; /* 优先提升文字可读性 */
+  -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
+}
+
+/* 常用元素 */
+/* 移除列表默认项目符号 */
 ul,
 ol {
-  list-style: none;
+  list-style: none; /* 移除列表项目符号和编号 */
 }
 
-/* 设置页面主体默认样式 */
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  -webkit-tap-highlight-color: transparent;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-#app {
-  min-height: 100vh;
-  min-height: 100dvh;
-  background: inherit;
-}
-
-html {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-html::-webkit-scrollbar,
-body::-webkit-scrollbar,
-*::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none;
-}
-
-/* 未设置 class 的链接保留默认文本装饰优化 */
-a:not([class]) {
-  text-decoration-skip-ink: auto;
-}
-
+/* 链接默认继承所在区域的文字颜色 */
 a {
-  color: inherit;
-  text-decoration: none;
+  color: inherit; /* 链接继承父元素文字颜色 */
 }
 
-/* 让图片和媒体元素更易布局 */
-img,
-picture,
-svg,
-video,
-canvas {
-  max-width: 100%;
-  display: block;
-}
-
-/* 表单控件继承字体 */
-input,
-button,
-textarea,
-select {
-  font: inherit;
-  color: inherit;
-  background: transparent;
-  border: none;
-}
-
-/* 按钮使用可点击光标 */
-button {
-  cursor: pointer;
-}
-
-button,
-input {
-  outline: none;
-}
-
-/* 文本域默认只允许垂直调整大小 */
+/* 文本域仅允许纵向调整尺寸，避免破坏页面宽度 */
 textarea {
-  resize: vertical;
-}
-
-/* 尊重减少动态效果偏好，关闭动画、过渡和平滑滚动 */
-@media (prefers-reduced-motion: reduce) {
-  html:focus-within {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  resize: vertical; /* 仅允许纵向调整文本域尺寸 */
 }
