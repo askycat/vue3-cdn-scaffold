@@ -79,17 +79,23 @@
     }
   }
 
+  //懒加载组件
   window.loadVue = function (path) {
     return Vue.defineAsyncComponent(function () {
       return loadModule(path, options)
     })
   }
-
+  //直接请求加载文件
+   window.loadVueModule = function (path) {
+        return loadModule(path, options)
+  }
+  //懒加载路由页面
   window.loadRouteVue = function (path) {
     return function () {
       return loadModule(path, options)
     }
   }
+
 
   // 加载外部 CSS 文件，使用浏览器缓存，并在注入前转换 px -> rem。
   window.loadRemCss = async function (url) {
