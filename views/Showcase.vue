@@ -213,7 +213,7 @@
                 🎉 下载成功！
               </span>
             </button>
-            <div class="download-info">图片 URL: <code>https://disk.sample.cat/samples/jpg/monalisa-1200x1200.jpg</code></div>
+            <div class="download-info">图片 URL: <code>/monalisa-1200x1200.jpg</code></div>
           </div>
         </div>
       </section>
@@ -537,8 +537,8 @@ const fetchDataByManualHandleError = async () => {
 const downloadImage = async () => {
     downloadStatus.value = 'downloading'
     try {
-        const imageUrl = 'https://disk.sample.cat/samples/jpg/monalisa-1200x1200.jpg'
-        await http.downloadAsync(imageUrl, '下载的图片.jpg')
+        const imageUrl = 'monalisa-1200x1200.jpg'
+        await http.downloadAsync(imageUrl)
         downloadStatus.value = 'completed'
         setTimeout(() => {
             downloadStatus.value = 'idle'

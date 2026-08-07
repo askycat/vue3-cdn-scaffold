@@ -168,58 +168,58 @@ export default {
         return data
     },
 
-    async downloadAsync(url, filename, params, method = 'get', options = {}) {
-        const {
-            autoHandleError = true
-        } = options
+    async downloadAsync(url, params = {}, options = {}) {
+     const { autoHandleError = true, method = 'get', filename = '' } = options
+     const requestMethod = method.toLowerCase()
 
-        const response = await axios({
-            method,
-            url,
-            data: method.toLowerCase() === 'post' ? params : undefined,
-            params: method.toLowerCase() === 'get' ? params : undefined,
-            responseType: 'blob'
-        })
+     const response = await axios({
+         method: requestMethod,
+         url,
+         data: requestMethod === 'get' ? undefined : params,
+         params: requestMethod === 'get' ? params : undefined,
+         responseType: 'blob',
+     })
 
-        if (!response || !response.data) {
-            return
-        }
+     if (!response || !response.data) {
+         return
+     }
 
-        const data = response.data
+     let fileName = filename
+     const contentDisposition = response.headers['content-disposition'] || response.headers['Content-Disposition']
 
-        let fileName = filename
+     if (!contentDisposition && response.data.type.includes('application/json')) {
+         const data = JSON.parse(await response.data.text())
+         if (autoHandleError && data.message)  alert(data.message)
+         return Promise.reject(data)
+     }
 
-        if (!fileName) {
-            const contentDisposition = response.headers['content-disposition'] || response.headers['Content-Disposition']
+     if (!fileName) {
+         if (contentDisposition) {
+             const match = contentDisposition.match(/filename\*?=(?:UTF-8'')?([^;'"\n]*)/i)
 
-            if (contentDisposition) {
-                const match = contentDisposition.match(/filename\*?=(?:UTF-8'')?([^;'"\n]*)/i)
+             if (match && match[1]) {
+                 fileName = decodeURIComponent(match[1].replace(/['"]/g, ''))
+             }
+         }
+     }
 
-                if (match && match[1]) {
-                    fileName = decodeURIComponent(match[1].replace(/['"]/g, ''))
-                }
-            }
-        }
+     if (!fileName) {
+         fileName = decodeURIComponent(new URL(url, location.origin).pathname.split('/').pop()) || 'download'
+     }
 
-        if (!fileName) {
-            const urlParts = url.split('/')
-            const lastPart = urlParts[urlParts.length - 1].split('?')[0]
-            fileName = lastPart || 'download'
-        }
+     const blobUrl = window.URL.createObjectURL(response.data)
+     const link = window.document.createElement('a')
 
-        const blobUrl = window.URL.createObjectURL(new Blob([response.data]))
-        const link = window.document.createElement('a')
+     link.style.display = 'none'
+     link.href = blobUrl
+     link.setAttribute('download', fileName)
 
-        link.style.display = 'none'
-        link.href = blobUrl
-        link.setAttribute('download', fileName)
+     window.document.body.appendChild(link)
+     link.click()
 
-        window.document.body.appendChild(link)
-        link.click()
+     window.document.body.removeChild(link)
+     window.URL.revokeObjectURL(blobUrl)
 
-        window.document.body.removeChild(link)
-        window.URL.revokeObjectURL(blobUrl)
-
-        return response
-    }
+     return response
+ }
 }
