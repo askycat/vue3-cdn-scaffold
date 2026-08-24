@@ -4,7 +4,7 @@ import http from './http.js'
 const plugins = [http, i18n]
 
 /** 加载插件 */
-export function loadPulgins(app) {
+export function loadPlugins(app) {
   plugins.forEach(plugin => {
     if (typeof plugin === 'function') {
       plugin(app)

@@ -2,6 +2,9 @@
   const { loadModule } = window['vue3-sfc-loader']
   const styleCache = new Set()
   const siteInfo = window.SITE_CONFIG || {}
+  const debug = siteInfo.debug === true
+  const assetVersion = siteInfo.assetVersion || ''
+  const assetCacheMode = debug ? 'no-store' : 'force-cache'
 
   // rem 换算基准：375px 设计稿下 16px = 1rem，并限制根字号范围。
   const openPxToRem = siteInfo.openPxToRem || false
@@ -22,6 +25,14 @@
     return Number(value.toFixed(6)).toString()
   }
 
+  // 版本变化时生成新的资源 URL；同一版本优先直接使用浏览器缓存。
+  function versionAssetUrl(url) {
+    const value = String(url)
+    if (debug || !assetVersion || /[?&]v=/.test(value)) return value
+
+    return value + (value.includes('?') ? '&' : '?') + 'v=' + encodeURIComponent(assetVersion)
+  }
+
   // 将源码或 CSS 文本里的 px 统一转换为 rem。
   function pxToRem(styleText) {
     if (!openPxToRem) return styleText
@@ -40,10 +51,11 @@
     style.textContent = styleText
     document.head.appendChild(style)
   }
-
-  setRootFontSize()
-  window.addEventListener('resize', setRootFontSize)
-  window.addEventListener('orientationchange', setRootFontSize)
+  if (openPxToRem){
+    setRootFontSize()
+    window.addEventListener('resize', setRootFontSize)
+    window.addEventListener('orientationchange', setRootFontSize)
+  }
 
   const options = {
     moduleCache: {
@@ -54,7 +66,7 @@
     },
 
     async getFile(url) {
-      const res = await fetch(url)
+      const res = await fetch(versionAssetUrl(url), { cache: assetCacheMode })
       if (!res.ok) {
         //console.error(`加载文件失败：${url}`); 
       }
@@ -96,19 +108,15 @@
     }
   }
 
-
   // 加载外部 CSS 文件，使用浏览器缓存，并在注入前转换 px -> rem。
   window.loadRemCss = async function (url) {
-    fetch(url, {
-      cache: 'force-cache'
-    }).then(async function (res) {
-      if (!res.ok) {
-        throw new Error(`加载样式失败：${url}`)
-      }
-      var styleText = await res.text()
-      styleText = pxToRem(styleText)
-      addStyleText(styleText)
-    })
+    const res = await fetch(versionAssetUrl(url), { cache: assetCacheMode })
+    if (!res.ok) {
+      throw new Error(`加载样式失败：${url}`)
+    }
+
+    const styleText = pxToRem(await res.text())
+    addStyleText(styleText)
   }
 
   window.sfcOptions = options

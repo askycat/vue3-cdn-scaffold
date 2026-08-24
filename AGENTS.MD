@@ -14,6 +14,7 @@
 - 推荐在项目根目录运行 `start.bat`，默认端口参考 showcase 中的 `8080`。
 - 也可以使用静态服务，例如 `python -m http.server 8080`。
 - 访问地址通常为 `http://localhost:8080/#/home` 或 `http://localhost:8080/#/showcase`。
+- 不要加很多的防御性判断
 
 ## Showcase 覆盖能力
 
@@ -40,8 +41,9 @@ window.SITE_CONFIG = {
   copyright: 'Copyright © 2026',
   baseURL: '/api',
   version: '1.0.0(2026-06-01)',
-  remCssVersion: '202606021',
-  remCssUrls: ['./assets/css/global.css'],
+  debug: false,
+  assetVersion: '20260824.1',
+  cssUrls: ['./assets/css/global.css'],
   openPxToRem: false,
   pxToRemBase: 16,
   designWidth: 375,
@@ -53,8 +55,9 @@ window.SITE_CONFIG = {
 注意事项：
 
 - 路由标题、首页标题、等都应读取 `window.SITE_CONFIG`。
+- `debug` 为 `true` 时 Vue 和 CSS 使用原始 URL 并禁用缓存；正式发布时保持为 `false`。
 - `openPxToRem` 当前保持为 `false`，除非任务明确要求开启运行时转换。
-- 修改 `remCssUrls` 或 `remCssVersion` 时，同步检查 `main.js` 和 `utils/loader.js` 的加载逻辑。
+- 修改 `cssUrls` 或 `assetVersion` 时，同步检查 `main.js` 和 `utils/loader.js` 的加载逻辑。
 
 ## 路由约定
 
