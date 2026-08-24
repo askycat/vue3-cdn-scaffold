@@ -93,7 +93,7 @@ Pinia store 以全局State函数挂载：
 
 HTTP 插件位于 `plugins/http.js`，封装位于 `utils/axios.js`。
 
-- `window.http`、`app.provide('http', http)` 和 `$http` 都会挂载同一套 API。
+- HTTP API 统一通过 `window.http` 使用。
 - `axios.defaults.baseURL` 来自 `window.SITE_CONFIG.baseURL`。
 - 请求头从 `useAppStore().token` 写入 `authorization`，不要再单独维护 `token` / `token-expires-at` 两个 localStorage 键。
 - `getAsync(url, params, options)` 和 `postAsync(url, params, options)` 支持 `autoHandleError`。
