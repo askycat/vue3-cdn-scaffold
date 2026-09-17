@@ -5,7 +5,7 @@ window.SITE_CONFIG = {
   copyright: 'Copyright © 2026', // 版权信息，用于页脚展示。
   baseURL: '', // 接口请求基础路径。
   version: '1.0.0(2026-06-01)', // 站点版本号，方便展示或排查当前发布版本。
-  debug: false, // 调试模式不使用缓存，刷新后直接获取最新 Vue 和 CSS 文件。
+  debug: true, // 调试模式不使用缓存，刷新后直接获取最新 Vue 和 CSS 文件。
   assetVersion: '20260824.1', // 静态资源版本号，发布时递增，用于更新 Vue 和 CSS 浏览器缓存。
   cssUrls: [               // 需要运行时转换 px -> rem 的全局样式表。
     './assets/css/global.css'
