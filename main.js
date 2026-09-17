@@ -16,7 +16,9 @@ import { loadDirectives } from './directives/index.js'
 const { cssUrls = [] } = window.SITE_CONFIG || {}
 const [App] = await Promise.all([
   window.loadVueModule('./App.vue'),
-  ...cssUrls.map(window.loadRemCss)
+  (async () => {
+    for (const url of cssUrls) await window.loadRemCss(url)
+  })()
 ])
 
 // 载入唯一的根组件 App.vue
@@ -28,13 +30,13 @@ loadPlugins(app)
 loadDirectives(app)
 
 app.use(pinia)
-//在此前可挂载动态路由 全局信息
+//站点相关配置
 // await window.useAppStore().load().catch(error => {
 //     console.error('应用信息加载失败', error)
 // })
 
 app.use(router)
-
+await router.isReady()
 app.mount('#app')
 
 window.vueApp = app
