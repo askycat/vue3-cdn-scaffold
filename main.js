@@ -31,7 +31,7 @@ loadDirectives(app)
 
 app.use(pinia)
 //站点相关配置
-// await window.useAppStore().load().catch(error => {
+// await window.useAppStore().loadAppInfo().catch(error => {
 //     console.error('应用信息加载失败', error)
 // })
 

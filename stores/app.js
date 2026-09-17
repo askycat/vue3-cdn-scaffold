@@ -62,7 +62,7 @@ window.useAppStore = Pinia.defineStore('app', {
       this.permissions = permissions
     },
     // 加载应用信息（站点信息、用户信息、权限列表、菜单等）
-    load() {
+    loadAppInfo() {
       return window.http.getAsync('/App/AppInfo').then(({ data }) => {
         this.site = data.site
         document.title = data.site.title
