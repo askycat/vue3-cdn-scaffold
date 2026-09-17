@@ -43,4 +43,23 @@ router.beforeEach(function (to, from, next) {
   next()
 })
 
+let dynamicRouteRemovers = []
+function resetPermissionRoutes() {
+    dynamicRouteRemovers.forEach(removeRoute => removeRoute())
+    dynamicRouteRemovers = []
+}
+function registerPermissionRoutes(routes) {
+    resetPermissionRoutes()
+
+    for (const route of routes) {
+        dynamicRouteRemovers.push(router.addRoute({
+            ...route,
+            meta: { ...route.meta, auth: route.meta?.auth ?? true },
+            component: loadRouteVue(`./views/${route.component}`)
+        }))
+    }
+}
+window.registerPermissionRoutes = registerPermissionRoutes
+window.resetPermissionRoutes = resetPermissionRoutes
+
 export default router

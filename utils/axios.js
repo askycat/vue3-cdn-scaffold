@@ -114,18 +114,23 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
     if (!error.response) {
         // 无法连接服务器
+        alert('无法连接服务器')
     } else if (error.response.status === 0) {
         // 设备网络异常
+        alert('设备网络异常')
     } else if (error.response.status === 401) {
         // 登录失效（如未过期但 Token 被服务端手动作废）
        clearAuthSession()
        redirectToLogin()
     } else if (error.response.status === 403) {
         // 权限不足
+        alert('权限不足')
     } else if (error.response.status === 404) {
         // 资源不存在
+        alert('请求的资源不存在')
     } else if (error.response.status === 500) {
         // 服务器内部发生错误
+        alert('服务器内部发生错误')
     }
 
     return Promise.reject(error)

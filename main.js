@@ -28,7 +28,10 @@ loadPlugins(app)
 loadDirectives(app)
 
 app.use(pinia)
-//在此前可挂载动态路由
+//在此前可挂载动态路由 全局信息
+// await window.useAppStore().load().catch(error => {
+//     console.error('应用信息加载失败', error)
+// })
 
 app.use(router)
 
