@@ -1,0 +1,54 @@
+/* 项目设计变量 */
+:root {
+      /* 滚动条 */
+  --scrollbar-width: 3px;
+  --scrollbar-height: 5px;
+}
+
+/* 浅色主题变量 */
+.light-mode {
+
+}
+
+/* 全局滚动条样式 */
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-height);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--color-text-secondary) 32%, transparent);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  cursor: pointer;
+  background: color-mix(in srgb, var(--color-text-secondary) 52%, transparent);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--color-bg-surface);
+}
+
+/* Mobile 滚动条隐藏 */
+@media (hover: none) and (pointer: coarse) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ── 强制覆盖浏览器自动填充 ── */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-bg-muted) inset !important;
+  box-shadow: 0 0 0 1000px var(--color-bg-muted) inset !important;
+  -webkit-text-fill-color: var(--color-text-primary) !important;
+  caret-color: var(--color-text-primary) !important;
+  transition: background-color 50000s ease-in-out 0s !important;
+}
